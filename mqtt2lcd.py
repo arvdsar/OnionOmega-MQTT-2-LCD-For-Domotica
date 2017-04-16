@@ -35,7 +35,7 @@ import paho.mqtt.client as mqtt  #import the client1
 import time
 import lcddriver   
 import configparser
-from time import gmtime, strftime
+from time import localtime, strftime
 
 config = configparser.ConfigParser()
 config.read('myconfig.ini')
@@ -94,7 +94,6 @@ def on_message(client1, userdata, message):
 def screen_1():
     print("updating display 1")
     actual = int(content['energy/solar/actual'])
-    print(actual)
     if actual  == 0:
         print("actual is 0")
         lcd.lcd_display_string("Geen zon",1);
@@ -121,8 +120,8 @@ def screen_1():
     lcd.lcd_display_string_position("$" + TotalActualCostsStr,1,10);
     lcd.lcd_display_string_position(content['energy/solar/totalactual']+"W",1,20-len(content['energy/solar/totalactual']));   
 
-    lcd.lcd_display_string(strftime("%H:%M", gmtime()),3);
-    lcd.lcd_display_string(strftime("%a %d %b", gmtime()),4);
+    lcd.lcd_display_string(strftime("%H:%M", localtime()),3);
+    lcd.lcd_display_string(strftime("%a %d %b", localtime()),4);
 
 
 
@@ -156,7 +155,7 @@ def screen_2():
  
 def screen_3():
 	#first line
-    lcd.lcd_display_string(strftime("%Y Year Stats kWh", gmtime()),1);
+    lcd.lcd_display_string(strftime("%Y Year Stats kWh", localtime()),1);
 	#2nd Line
     lcd.lcd_display_string("S: ",2);
     lcd.lcd_display_string_position(str(int(content['energy/year/solar'])/1000),2,8-len(str(int(content['energy/year/solar'])/1000)));
